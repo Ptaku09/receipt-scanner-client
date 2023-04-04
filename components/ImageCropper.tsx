@@ -6,9 +6,10 @@ import Button from '@/components/Button';
 
 interface ImageCropperProps {
   imageSrc: string;
+  onCropFinished: (croppedImage: string) => void;
 }
 
-const ImageCropper: FC<ImageCropperProps> = ({ imageSrc }) => {
+const ImageCropper: FC<ImageCropperProps> = ({ imageSrc, onCropFinished }) => {
   const [crop, setCrop] = useState<Crop>({ unit: '%', width: 0, height: 0, x: 0, y: 0 });
   const imageRef = useRef<HTMLImageElement | null>(null);
 
@@ -17,6 +18,8 @@ const ImageCropper: FC<ImageCropperProps> = ({ imageSrc }) => {
   };
 
   const getCroppedImg = (image: HTMLImageElement, crop: Crop) => {
+    if (crop.width === 0 || crop.height === 0) return imageSrc;
+
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -40,16 +43,12 @@ const ImageCropper: FC<ImageCropperProps> = ({ imageSrc }) => {
       </div>
       <div className="w-full h-44 p-1 bg-color-corners rounded-md overflow-auto">
         <div className="w-full h-full p-2 bg-neutral-100 rounded-sm flex items-center justify-center">
-          {crop.width > 0 && crop.height > 0 ? (
-            <div className="relative w-full h-full">
-              <Image fill quality={100} style={{ objectFit: 'contain' }} src={getCroppedImg(imageRef.current!, crop)} alt="Cropped Image Preview" />
-            </div>
-          ) : (
-            <p>Select to see preview</p>
-          )}
+          <div className="relative w-full h-full">
+            <Image fill quality={100} style={{ objectFit: 'contain' }} src={getCroppedImg(imageRef.current!, crop)} alt="Cropped Image Preview" />
+          </div>
         </div>
       </div>
-      <Button>Scan</Button>
+      <Button func={() => onCropFinished(getCroppedImg(imageRef.current!, crop))}>Scan</Button>
     </div>
   );
 };

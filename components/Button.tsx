@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react';
 
 interface ButtonProps {
   children: ReactNode;
-  func?: () => void;
+  func?: (param?: any) => void;
 }
 
 const Button: FC<ButtonProps> = ({ children, func }) => {
