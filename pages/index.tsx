@@ -1,11 +1,10 @@
 import FileInput from '@/components/FileInput';
-import { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { UploadStatus } from '@/constants/uploadStatus';
 import ImageCropper from '@/components/ImageCropper';
-import Image from 'next/image';
-import Button from '@/components/Button';
+import ImagePreview from '@/components/ImagePreview';
 
-const Home = () => {
+const Home: FC = () => {
   const [image, setImage] = useState('');
   const [croppedImage, setCroppedImage] = useState('');
   const [currentStep, setCurrentStep] = useState<UploadStatus>(UploadStatus.SELECTING);
@@ -29,17 +28,9 @@ const Home = () => {
       {currentStep === UploadStatus.SELECTING ? (
         <FileInput onImageSelected={onImageSelected} />
       ) : currentStep === UploadStatus.CROPPING ? (
-        <div className="flex items-center justify-start flex-col gap-4">
-          <ImageCropper imageSrc={image} onCropFinished={onCropFinished} onCropCancel={() => setCurrentStep(UploadStatus.SELECTING)} />
-        </div>
+        <ImageCropper imageSrc={image} onCropFinished={onCropFinished} onCropCancel={() => setCurrentStep(UploadStatus.SELECTING)} />
       ) : (
-        <>
-          <div className="relative w-full h-80">
-            <Image src={croppedImage} quality={100} alt="Cropped Image Preview" fill style={{ objectFit: 'contain' }} />
-          </div>
-          <Button func={() => setCurrentStep(UploadStatus.CROPPING)}>Back</Button>
-          <Button primary>Scan</Button>
-        </>
+        <ImagePreview imageSrc={croppedImage} onPreviewCancel={() => setCurrentStep(UploadStatus.CROPPING)} />
       )}
     </div>
   );

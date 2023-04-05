@@ -40,7 +40,7 @@ const ImageCropper: FC<ImageCropperProps> = ({ imageSrc, onCropFinished, onCropC
       <div className="w-full flex items-center justify-center gap-7">
         <Button func={onCropCancel}>BACK</Button>
         <Button primary func={() => onCropFinished(getCroppedImg(imageRef.current!, crop))}>
-          SCAN
+          CROP
         </Button>
       </div>
       <p className="text-neutral-500 font-light text-center text-sm">
