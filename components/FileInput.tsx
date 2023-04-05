@@ -21,7 +21,9 @@ const FileInput = ({ onImageSelected }: { onImageSelected: any }) => {
   return (
     <div className="w-full flex items-center flex-col">
       <input className="hidden" type="file" accept="image/png, image/jpg, image/jpeg" ref={inputRef} onChange={handleOnChange} />
-      <Button func={onChooseImage}>Choose image</Button>
+      <Button primary func={onChooseImage}>
+        CHOOSE
+      </Button>
     </div>
   );
 };

@@ -22,24 +22,23 @@ const Home = () => {
 
   return (
     <div className="w-full min-h-screen h-full bg-neutral-100 flex items-center justify-start flex-col py-10 px-4 overflow-auto">
-      <div className="text-5xl font-extrabold mb-10">
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">Upload receipt!</span>
+      <div className="text-5xl font-sans font-extrabold mb-10">
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">{currentStep} receipt!</span>
       </div>
 
       {currentStep === UploadStatus.SELECTING ? (
         <FileInput onImageSelected={onImageSelected} />
       ) : currentStep === UploadStatus.CROPPING ? (
-        <>
-          <ImageCropper imageSrc={image} onCropFinished={onCropFinished} />
-          <Button func={() => setCurrentStep(UploadStatus.SELECTING)}>Back</Button>
-        </>
+        <div className="flex items-center justify-start flex-col gap-4">
+          <ImageCropper imageSrc={image} onCropFinished={onCropFinished} onCropCancel={() => setCurrentStep(UploadStatus.SELECTING)} />
+        </div>
       ) : (
         <>
           <div className="relative w-full h-80">
             <Image src={croppedImage} quality={100} alt="Cropped Image Preview" fill style={{ objectFit: 'contain' }} />
           </div>
           <Button func={() => setCurrentStep(UploadStatus.CROPPING)}>Back</Button>
-          <Button>Scan</Button>
+          <Button primary>Scan</Button>
         </>
       )}
     </div>
