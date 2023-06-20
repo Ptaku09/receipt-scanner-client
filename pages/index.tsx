@@ -5,6 +5,7 @@ import ImageCropper from '@/components/ImageCropper';
 import ImagePreview from '@/components/ImagePreview';
 import { NextPage } from 'next';
 import anime, { AnimeTimelineInstance } from 'animejs';
+import axios from 'axios';
 
 const Home: NextPage = () => {
   const [image, setImage] = useState<string>('');
@@ -41,6 +42,17 @@ const Home: NextPage = () => {
     setCurrentStep(UploadStatus.UPLOADING);
   };
 
+  const onScan = async () => {
+    const bodyFormData = new FormData();
+    const blob = await (await fetch(croppedImage)).blob();
+    bodyFormData.append('uploaded_receipt', blob);
+
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/receipt/scan`, bodyFormData)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="w-full min-h-screen h-full bg-neutral-100 flex items-center justify-start flex-col py-10 px-4 overflow-auto">
       <div className="title text-5xl font-sans font-extrabold mb-10">
@@ -53,7 +65,7 @@ const Home: NextPage = () => {
         ) : currentStep === UploadStatus.CROPPING ? (
           <ImageCropper imageSrc={image} onCropFinished={onCropFinished} onCropCancel={() => setCurrentStep(UploadStatus.SELECTING)} />
         ) : (
-          <ImagePreview imageSrc={croppedImage} onPreviewCancel={() => setCurrentStep(UploadStatus.CROPPING)} />
+          <ImagePreview imageSrc={croppedImage} onPreviewCancel={() => setCurrentStep(UploadStatus.CROPPING)} onScan={onScan} />
         )}
       </div>
     </div>

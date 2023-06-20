@@ -6,14 +6,17 @@ import Image from 'next/image';
 interface ImagePreviewProps {
   imageSrc: string;
   onPreviewCancel: (stage: UploadStatus) => void;
+  onScan: () => void;
 }
 
-const ImagePreview: FC<ImagePreviewProps> = ({ imageSrc, onPreviewCancel }) => {
+const ImagePreview: FC<ImagePreviewProps> = ({ imageSrc, onPreviewCancel, onScan }) => {
   return (
     <div className="w-full flex items-center justify-start flex-col gap-5">
       <div className="w-full flex items-center justify-center gap-7">
         <Button func={onPreviewCancel}>BACK</Button>
-        <Button primary>SCAN</Button>
+        <Button primary func={onScan}>
+          SCAN
+        </Button>
       </div>
       <p className="text-neutral-500 font-light text-center text-sm">
         Please check if the receipt is properly cropped and then send the image for scanning
