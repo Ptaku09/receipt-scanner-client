@@ -6,11 +6,13 @@ import ImagePreview from '@/components/ImagePreview';
 import { NextPage } from 'next';
 import anime, { AnimeTimelineInstance } from 'animejs';
 import axios from 'axios';
+import { Product } from '@/types/product';
 
 const Home: NextPage = () => {
   const [image, setImage] = useState<string>('');
   const [croppedImage, setCroppedImage] = useState<string>('');
   const [currentStep, setCurrentStep] = useState<UploadStatus>(UploadStatus.SELECTING);
+  const [products, setProducts] = useState<Product[]>([]);
   const animationRef = useRef<AnimeTimelineInstance>();
 
   useEffect(() => {
@@ -43,13 +45,18 @@ const Home: NextPage = () => {
   };
 
   const onScan = async () => {
+    setCurrentStep(UploadStatus.SCANNING);
+
     const bodyFormData = new FormData();
     const blob = await (await fetch(croppedImage)).blob();
     bodyFormData.append('uploaded_receipt', blob);
 
     axios
       .post(`${process.env.NEXT_PUBLIC_BASE_URL}/receipt/scan`, bodyFormData)
-      .then((res) => console.log(res))
+      .then((res) => {
+        setProducts(res.data);
+        setCurrentStep(UploadStatus.RESULTS);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -64,8 +71,20 @@ const Home: NextPage = () => {
           <FileInput onImageSelected={onImageSelected} />
         ) : currentStep === UploadStatus.CROPPING ? (
           <ImageCropper imageSrc={image} onCropFinished={onCropFinished} onCropCancel={() => setCurrentStep(UploadStatus.SELECTING)} />
-        ) : (
+        ) : currentStep === UploadStatus.UPLOADING ? (
           <ImagePreview imageSrc={croppedImage} onPreviewCancel={() => setCurrentStep(UploadStatus.CROPPING)} onScan={onScan} />
+        ) : currentStep === UploadStatus.SCANNING ? (
+          <div className="w-full flex items-center justify-center flex-col gap-5">
+            <p>scanning</p>
+          </div>
+        ) : currentStep === UploadStatus.RESULTS ? (
+          <div className="w-full flex items-center justify-center flex-col gap-5">
+            <p>results</p>
+          </div>
+        ) : (
+          <div className="w-full flex items-center justify-center flex-col gap-5">
+            <p>error</p>
+          </div>
         )}
       </div>
     </div>
