@@ -1,7 +1,4 @@
 import React, { FC, ReactNode } from 'react';
-import { Rubik } from 'next/font/google';
-
-const rubik = Rubik({ subsets: ['latin'], weight: '500' });
 
 interface ButtonProps {
   children: ReactNode;
@@ -14,7 +11,7 @@ const Button: FC<ButtonProps> = ({ children, func, primary = false }) => {
     <button
       className={`${
         primary ? 'bg-gradient-to-r from-pink-500 to-violet-500' : 'bg-neutral-400'
-      } px-12 py-3 text-bold text-white text-sm rounded-xl shadow-xl ${rubik.className}`}
+      } px-12 py-3 text-bold text-white text-sm rounded-xl shadow-xl`}
       onClick={func}
     >
       {children}

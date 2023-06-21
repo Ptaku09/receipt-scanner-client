@@ -3,5 +3,5 @@ export enum UploadStatus {
   CROPPING = 'Crop',
   UPLOADING = 'Upload',
   SCANNING = 'Scan',
-  RESULTS = 'Result',
+  RESULTS = 'Check',
 }

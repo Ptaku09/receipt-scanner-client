@@ -7,6 +7,7 @@ import { NextPage } from 'next';
 import anime, { AnimeTimelineInstance } from 'animejs';
 import axios from 'axios';
 import { Product } from '@/types/product';
+import ProductsPreview from '@/components/ProductsPreview';
 
 const Home: NextPage = () => {
   const [image, setImage] = useState<string>('');
@@ -66,7 +67,7 @@ const Home: NextPage = () => {
         <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">{currentStep} receipt!</span>
       </div>
 
-      <div className="content">
+      <div className="content w-full">
         {currentStep === UploadStatus.SELECTING ? (
           <FileInput onImageSelected={onImageSelected} />
         ) : currentStep === UploadStatus.CROPPING ? (
@@ -78,9 +79,7 @@ const Home: NextPage = () => {
             <p>scanning</p>
           </div>
         ) : currentStep === UploadStatus.RESULTS ? (
-          <div className="w-full flex items-center justify-center flex-col gap-5">
-            <p>results</p>
-          </div>
+          <ProductsPreview products={products} />
         ) : (
           <div className="w-full flex items-center justify-center flex-col gap-5">
             <p>error</p>
