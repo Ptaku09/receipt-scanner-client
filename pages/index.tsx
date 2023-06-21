@@ -1,19 +1,19 @@
 import FileInput from '@/components/FileInput';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { UploadStatus } from '@/constants/uploadStatus';
 import ImageCropper from '@/components/ImageCropper';
 import ImagePreview from '@/components/ImagePreview';
 import { NextPage } from 'next';
 import anime, { AnimeTimelineInstance } from 'animejs';
 import axios from 'axios';
-import { Product } from '@/types/product';
 import ProductsPreview from '@/components/ProductsPreview';
+import { ProductsContext } from '@/providers/ProductsProvider';
 
 const Home: NextPage = () => {
   const [image, setImage] = useState<string>('');
   const [croppedImage, setCroppedImage] = useState<string>('');
   const [currentStep, setCurrentStep] = useState<UploadStatus>(UploadStatus.SELECTING);
-  const [products, setProducts] = useState<Product[]>([]);
+  const { setProducts } = useContext(ProductsContext);
   const animationRef = useRef<AnimeTimelineInstance>();
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const Home: NextPage = () => {
             <p>scanning</p>
           </div>
         ) : currentStep === UploadStatus.RESULTS ? (
-          <ProductsPreview products={products} />
+          <ProductsPreview />
         ) : (
           <div className="w-full flex items-center justify-center flex-col gap-5">
             <p>error</p>

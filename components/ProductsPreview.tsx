@@ -1,11 +1,10 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useContext } from 'react';
 import { Product } from '@/types/product';
+import { ProductsContext } from '@/providers/ProductsProvider';
 
-interface ProductsPreviewProps {
-  products: Product[];
-}
+const ProductsPreview = () => {
+  const { products } = useContext(ProductsContext);
 
-const ProductsPreview = ({ products }: ProductsPreviewProps) => {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
