@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { Product } from '@/types/product';
 
 interface ProductsPreviewProps {
@@ -6,18 +6,16 @@ interface ProductsPreviewProps {
 }
 
 const ProductsPreview = ({ products }: ProductsPreviewProps) => {
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <p className="text-neutral-500 font-light text-center text-sm pb-10">
         Please check if prices are correctly detected, and if not, please manually enter the correct price
       </p>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log('submitted');
-        }}
-        className="w-full flex items-center justify-center flex-col gap-5"
-      >
+      <form onSubmit={onSubmit} className="w-full flex items-center justify-center flex-col gap-5">
         {products.map((product: Product, index: number) => (
           <div
             key={index}
