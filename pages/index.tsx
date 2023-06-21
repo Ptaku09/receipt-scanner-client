@@ -1,5 +1,5 @@
 import FileInput from '@/components/FileInput';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { UploadStatus } from '@/constants/uploadStatus';
 import ImageCropper from '@/components/ImageCropper';
 import ImagePreview from '@/components/ImagePreview';
@@ -61,6 +61,11 @@ const Home: NextPage = () => {
       .catch((err) => console.log(err));
   };
 
+  const onProductsConfirmed = (e: FormEvent) => {
+    e.preventDefault();
+    // TODO: move to users page
+  };
+
   return (
     <div className="w-full min-h-screen h-full bg-neutral-100 flex items-center justify-start flex-col py-10 px-4 overflow-auto">
       <div className="title text-5xl font-sans font-extrabold mb-10">
@@ -79,7 +84,7 @@ const Home: NextPage = () => {
             <p>scanning</p>
           </div>
         ) : currentStep === UploadStatus.RESULTS ? (
-          <ProductsPreview />
+          <ProductsPreview onProductsConfirmed={onProductsConfirmed} onPreviewCancel={() => setCurrentStep(UploadStatus.UPLOADING)} />
         ) : (
           <div className="w-full flex items-center justify-center flex-col gap-5">
             <p>error</p>
