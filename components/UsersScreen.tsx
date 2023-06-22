@@ -1,14 +1,19 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import anime, { AnimeInstance } from 'animejs';
+import Button from '@/components/Button';
 
-const UsersScreen = () => {
+interface UserScreenProps {
+  onUsersConfirmed: (users: string[]) => void;
+}
+
+const UsersScreen = ({ onUsersConfirmed }: UserScreenProps) => {
   const [users, setUsers] = useState<string[]>([]);
   const [user, setUser] = useState<string>('');
   const animationRef = useRef<AnimeInstance>();
 
   useEffect(() => {
     animationRef.current = anime({
-      targets: '.user',
+      targets: ['.user', '.split-button'],
       opacity: [0, 1],
       translateY: ['50px', '0px'],
     });
@@ -32,6 +37,11 @@ const UsersScreen = () => {
 
   return (
     <div className="w-full flex items-center justify-center flex-col gap-8">
+      <div>
+        <p className="text-neutral-500 font-light text-center text-sm">
+          Please add users that will split the receipt. Minimum two users are required.
+        </p>
+      </div>
       <form onSubmit={handleAddUser} className="w-5/6 flex flex-col">
         <label htmlFor="user" className="text-sm text-neutral-500 font-light">
           User:
@@ -67,6 +77,13 @@ const UsersScreen = () => {
           </div>
         ))}
       </div>
+      {users.length >= 2 && (
+        <div className="split-button">
+          <Button primary func={() => onUsersConfirmed(users)}>
+            SPLIT RECEIPT
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

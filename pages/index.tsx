@@ -14,6 +14,7 @@ import UsersScreen from '@/components/UsersScreen';
 const Home: NextPage = () => {
   const [image, setImage] = useState<string>('');
   const [croppedImage, setCroppedImage] = useState<string>('');
+  const [users, setUsers] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState<UploadStatus>(UploadStatus.USERS);
   const { setProducts } = useContext(ProductsContext);
   const animationRef = useRef<AnimeTimelineInstance>();
@@ -65,7 +66,13 @@ const Home: NextPage = () => {
 
   const onProductsConfirmed = (e: FormEvent) => {
     e.preventDefault();
-    // TODO: move to users page
+    setCurrentStep(UploadStatus.USERS);
+  };
+
+  const onUsersConfirmed = (users: string[]) => {
+    setUsers(users);
+    console.log(users);
+    // TODO: connect to next step
   };
 
   return (
@@ -86,7 +93,7 @@ const Home: NextPage = () => {
         ) : currentStep === UploadStatus.RESULTS ? (
           <ProductsPreview onProductsConfirmed={onProductsConfirmed} onPreviewCancel={() => setCurrentStep(UploadStatus.UPLOADING)} />
         ) : currentStep === UploadStatus.USERS ? (
-          <UsersScreen />
+          <UsersScreen onUsersConfirmed={onUsersConfirmed} />
         ) : (
           <div className="w-full flex items-center justify-center flex-col gap-5">
             <p>error</p>
