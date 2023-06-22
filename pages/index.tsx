@@ -8,6 +8,7 @@ import anime, { AnimeTimelineInstance } from 'animejs';
 import axios from 'axios';
 import ProductsPreview from '@/components/ProductsPreview';
 import { ProductsContext } from '@/providers/ProductsProvider';
+import LoadingScreen from '@/components/LoadingScreen';
 
 const Home: NextPage = () => {
   const [image, setImage] = useState<string>('');
@@ -69,7 +70,7 @@ const Home: NextPage = () => {
   return (
     <div className="w-full min-h-screen h-full bg-neutral-100 flex items-center justify-start flex-col py-10 px-4 overflow-auto">
       <div className="title text-5xl font-sans font-extrabold mb-10">
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">{currentStep} receipt!</span>
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">{currentStep}</span>
       </div>
 
       <div className="content w-full">
@@ -80,9 +81,7 @@ const Home: NextPage = () => {
         ) : currentStep === UploadStatus.UPLOADING ? (
           <ImagePreview imageSrc={croppedImage} onPreviewCancel={() => setCurrentStep(UploadStatus.CROPPING)} onScan={onScan} />
         ) : currentStep === UploadStatus.SCANNING ? (
-          <div className="w-full flex items-center justify-center flex-col gap-5">
-            <p>scanning</p>
-          </div>
+          <LoadingScreen />
         ) : currentStep === UploadStatus.RESULTS ? (
           <ProductsPreview onProductsConfirmed={onProductsConfirmed} onPreviewCancel={() => setCurrentStep(UploadStatus.UPLOADING)} />
         ) : (

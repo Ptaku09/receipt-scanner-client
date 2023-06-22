@@ -1,7 +1,7 @@
 export enum UploadStatus {
-  SELECTING = 'Select',
-  CROPPING = 'Crop',
-  UPLOADING = 'Upload',
-  SCANNING = 'Scan',
-  RESULTS = 'Check',
+  SELECTING = 'Select receipt!',
+  CROPPING = 'Crop receipt!',
+  UPLOADING = 'Upload receipt!',
+  SCANNING = 'Scanning!',
+  RESULTS = 'Check prices!',
 }
