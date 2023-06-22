@@ -9,11 +9,12 @@ import axios from 'axios';
 import ProductsPreview from '@/components/ProductsPreview';
 import { ProductsContext } from '@/providers/ProductsProvider';
 import LoadingScreen from '@/components/LoadingScreen';
+import UsersScreen from '@/components/UsersScreen';
 
 const Home: NextPage = () => {
   const [image, setImage] = useState<string>('');
   const [croppedImage, setCroppedImage] = useState<string>('');
-  const [currentStep, setCurrentStep] = useState<UploadStatus>(UploadStatus.SELECTING);
+  const [currentStep, setCurrentStep] = useState<UploadStatus>(UploadStatus.USERS);
   const { setProducts } = useContext(ProductsContext);
   const animationRef = useRef<AnimeTimelineInstance>();
 
@@ -84,6 +85,8 @@ const Home: NextPage = () => {
           <LoadingScreen />
         ) : currentStep === UploadStatus.RESULTS ? (
           <ProductsPreview onProductsConfirmed={onProductsConfirmed} onPreviewCancel={() => setCurrentStep(UploadStatus.UPLOADING)} />
+        ) : currentStep === UploadStatus.USERS ? (
+          <UsersScreen />
         ) : (
           <div className="w-full flex items-center justify-center flex-col gap-5">
             <p>error</p>

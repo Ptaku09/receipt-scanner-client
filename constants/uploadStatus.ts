@@ -4,4 +4,5 @@ export enum UploadStatus {
   UPLOADING = 'Upload receipt!',
   SCANNING = 'Scanning!',
   RESULTS = 'Check prices!',
+  USERS = 'Add users!',
 }
