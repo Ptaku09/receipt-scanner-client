@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   const [image, setImage] = useState<string>('');
   const [croppedImage, setCroppedImage] = useState<string>('');
   const [users, setUsers] = useState<string[]>([]);
-  const [currentStep, setCurrentStep] = useState<UploadStatus>(UploadStatus.USERS);
+  const [currentStep, setCurrentStep] = useState<UploadStatus>(UploadStatus.SELECTING);
   const { setProducts } = useContext(ProductsContext);
   const animationRef = useRef<AnimeTimelineInstance>();
 

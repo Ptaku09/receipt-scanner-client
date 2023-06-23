@@ -1,6 +1,7 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import anime, { AnimeInstance } from 'animejs';
 import Button from '@/components/Button';
+import toast from 'react-hot-toast';
 
 interface UserScreenProps {
   onUsersConfirmed: (users: string[]) => void;
@@ -22,11 +23,24 @@ const UsersScreen = ({ onUsersConfirmed }: UserScreenProps) => {
   const handleAddUser = (e: FormEvent) => {
     e.preventDefault();
 
-    if (user.length >= 2 && user.length <= 20 && !users.includes(user) && users.length < 6) {
-      console.log(user);
-      setUsers([...users, user]);
-      setUser('');
+    if (user.length < 2) {
+      return toast.error('User name must be at least 2 characters long');
     }
+
+    if (user.length > 20) {
+      return toast.error('User name must be at most 20 characters long');
+    }
+
+    if (users.includes(user)) {
+      return toast.error('User already exists');
+    }
+
+    if (users.length >= 6) {
+      return toast.error('Maximum 6 users are allowed');
+    }
+
+    setUsers([...users, user]);
+    setUser('');
   };
 
   const handleRemoveUser = (index: number) => {
@@ -51,7 +65,6 @@ const UsersScreen = ({ onUsersConfirmed }: UserScreenProps) => {
           type="text"
           value={user}
           onChange={(e) => setUser(e.target.value)}
-          minLength={2}
           maxLength={20}
           className="h-8 px-2 text-xl rounded-md shadow-md"
         />
