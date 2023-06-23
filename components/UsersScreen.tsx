@@ -5,16 +5,17 @@ import toast from 'react-hot-toast';
 
 interface UserScreenProps {
   onUsersConfirmed: (users: string[]) => void;
+  onAddingCancel: () => void;
 }
 
-const UsersScreen = ({ onUsersConfirmed }: UserScreenProps) => {
+const UsersScreen = ({ onUsersConfirmed, onAddingCancel }: UserScreenProps) => {
   const [users, setUsers] = useState<string[]>([]);
   const [user, setUser] = useState<string>('');
   const animationRef = useRef<AnimeInstance>();
 
   useEffect(() => {
     animationRef.current = anime({
-      targets: ['.user', '.split-button'],
+      targets: ['.user', '.nav-button'],
       opacity: [0, 1],
       translateY: ['50px', '0px'],
     });
@@ -52,9 +53,7 @@ const UsersScreen = ({ onUsersConfirmed }: UserScreenProps) => {
   return (
     <div className="w-full flex items-center justify-center flex-col gap-8">
       <div>
-        <p className="text-neutral-500 font-light text-center text-sm">
-          Please add users that will split the receipt. Minimum two users are required.
-        </p>
+        <p className="text-neutral-500 font-light text-center text-sm">Please add users that will nav the receipt. Minimum two users are required.</p>
       </div>
       <form onSubmit={handleAddUser} className="w-5/6 flex flex-col">
         <label htmlFor="user" className="text-sm text-neutral-500 font-light">
@@ -91,12 +90,15 @@ const UsersScreen = ({ onUsersConfirmed }: UserScreenProps) => {
         ))}
       </div>
       {users.length >= 2 && (
-        <div className="split-button">
+        <div className="nav-button">
           <Button primary func={() => onUsersConfirmed(users)}>
             SPLIT RECEIPT
           </Button>
         </div>
       )}
+      <div className="nav-button">
+        <Button func={onAddingCancel}>BACK</Button>
+      </div>
     </div>
   );
 };

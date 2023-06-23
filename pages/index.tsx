@@ -93,7 +93,7 @@ const Home: NextPage = () => {
         ) : currentStep === UploadStatus.RESULTS ? (
           <ProductsPreview onProductsConfirmed={onProductsConfirmed} onPreviewCancel={() => setCurrentStep(UploadStatus.UPLOADING)} />
         ) : currentStep === UploadStatus.USERS ? (
-          <UsersScreen onUsersConfirmed={onUsersConfirmed} />
+          <UsersScreen onUsersConfirmed={onUsersConfirmed} onAddingCancel={() => setCurrentStep(UploadStatus.RESULTS)} />
         ) : (
           <div className="w-full flex items-center justify-center flex-col gap-5">
             <p>error</p>
