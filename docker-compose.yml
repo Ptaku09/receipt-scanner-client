@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  web:
+    container_name: web
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env.local
+    volumes:
+      - ./:/usr/local/apps/receipt-scanner-client/dev
+      - ignore:/usr/local/apps/receipt-scanner-client/dev/node_modules
+volumes:
+  ignore:
